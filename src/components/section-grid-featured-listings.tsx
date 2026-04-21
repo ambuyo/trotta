@@ -27,6 +27,8 @@ interface SectionGridFeaturedListingsProps {
   stayListings: TStayListing[]
   heading?: ReactNode
   description?: string
+  buttonText?: string
+  buttonHref?: string
 }
 
 const users = [
@@ -97,6 +99,8 @@ const SectionGridFeaturedListings: FC<SectionGridFeaturedListingsProps> = ({
     </>
   ),
   description = 'Our guests love these spots for their spotless rooms, prime locations, and so much more',
+  buttonText = 'New featured listings',
+  buttonHref = '/stay-categories/location-name',
 }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -132,8 +136,8 @@ const SectionGridFeaturedListings: FC<SectionGridFeaturedListingsProps> = ({
           </Text>
         </div>
 
-        <ButtonLargeWithIcon className="mt-8 max-w-lg" href="/stay-categories/location-name">
-          New featured listings
+        <ButtonLargeWithIcon className="mt-8 max-w-lg" href={buttonHref}>
+          {buttonText}
         </ButtonLargeWithIcon>
       </div>
 

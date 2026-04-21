@@ -73,6 +73,8 @@ async function Page() {
               </>
             }
             description="Verified services and tested guides from expats who've been exactly where you are."
+            buttonText="All Featured Listings"
+            buttonHref="/all-listings"
           />
         </RevealInView>
       </section>

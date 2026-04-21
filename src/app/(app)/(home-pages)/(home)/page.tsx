@@ -22,7 +22,7 @@ import { getAuthors } from '@/data/authors'
 import { getGroupStayCategories, getStayCategories, getGroupKenyaCities } from '@/data/categories'
 import { getBlogPosts } from '@/data/data'
 import { getStayListings } from '@/data/listings'
-import { fetchListingServiceCategoriesWithCount, fetchFeaturedServiceProviders } from '@/api/directus/fetchers'
+import { fetchFeaturedServiceProviders } from '@/api/directus/fetchers'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import { Metadata } from 'next'
 
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 }
 
 async function Page() {
-  const [categories, stayListings, authors, groupCategories, kenyaCities, posts, listingCategories, featuredServices] =
+  const [categories, stayListings, authors, groupCategories, kenyaCities, posts, featuredServices] =
     await Promise.all([
       getStayCategories(),
       getStayListings(),
@@ -40,14 +40,13 @@ async function Page() {
       getGroupStayCategories(),
       getGroupKenyaCities(),
       getBlogPosts(),
-      fetchListingServiceCategoriesWithCount(),
       fetchFeaturedServiceProviders(),
     ])
 
   return (
     <main className="relative section-space-bottom">
       <div className="px-4">
-        <HeroSectionPrimary listingCategories={listingCategories} />
+        <HeroSectionPrimary listingCategories={[]} />
       </div>
 
             <div className="container section-space-xl">
@@ -175,7 +174,7 @@ async function Page() {
               <ArrowRightIcon className="size-4! rtl:rotate-180" />
             </Button>
           </div>
-          <ListingsDirectoryAnchor categories={listingCategories} />
+          <ListingsDirectoryAnchor categories={[]} />
         </RevealInView>
       </div>
 

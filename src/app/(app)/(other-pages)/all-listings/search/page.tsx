@@ -1,6 +1,5 @@
 import { getStayListingFilterOptions } from '@/data/data'
 import { getStayListings } from '@/data/listings'
-import { fetchListingServiceCategoriesWithCount } from '@/api/directus/fetchers'
 import { Metadata } from 'next'
 import SectionGridHasMap from './section-grid-has-map'
 
@@ -13,11 +12,10 @@ export async function generateMetadata({ params }: { params: Promise<{ handle?: 
 const Page = async ({ params }: { params: Promise<{ handle?: string[] }> }) => {
   const listings = await getStayListings()
   const filterOptions = await getStayListingFilterOptions()
-  const categories = await fetchListingServiceCategoriesWithCount()
 
   return (
     <div className="container px-4 lg:px-8 xl:max-w-none">
-      <SectionGridHasMap listings={listings} filterOptions={filterOptions} categories={categories} />
+      <SectionGridHasMap listings={listings} filterOptions={filterOptions} categories={[]} />
     </div>
   )
 }

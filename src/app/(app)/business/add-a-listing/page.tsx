@@ -1,4 +1,4 @@
-import { fetchListingServiceCategoriesWithCount, fetchKenyaCities } from '@/api/directus/fetchers'
+import { fetchKenyaCities } from '@/api/directus/fetchers'
 import { Heading } from '@/components/heading'
 import { Text } from '@/components/text'
 import AddListingForm from './components/add-listing-form'
@@ -10,10 +10,7 @@ export const metadata: Metadata = {
 }
 
 async function Page() {
-  const [categories, cities] = await Promise.all([
-    fetchListingServiceCategoriesWithCount(),
-    fetchKenyaCities(100),
-  ])
+  const cities = await fetchKenyaCities(100)
 
   return (
     <div className="container py-12">
@@ -26,7 +23,7 @@ async function Page() {
         </Text>
       </div>
 
-      <AddListingForm categories={categories} cities={cities} />
+      <AddListingForm categories={[]} cities={cities} />
     </div>
   )
 }

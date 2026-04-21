@@ -67,11 +67,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug?: st
 
     return {
       title: `${subcategoryMeta.subcategoryName} - Trotta Kenya`,
-      description: subcategoryMeta.description,
+      description: subcategoryMeta.metaDescription,
       keywords: [subcategoryMeta.subcategoryName, 'expat services', 'Kenya', 'verified providers'],
       openGraph: {
         title: `${subcategoryMeta.subcategoryName} - Trotta Kenya`,
-        description: subcategoryMeta.description,
+        description: subcategoryMeta.metaDescription,
         type: 'website',
       },
     }

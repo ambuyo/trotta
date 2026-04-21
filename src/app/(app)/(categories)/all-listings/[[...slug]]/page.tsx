@@ -1,6 +1,6 @@
 import HeroSectionPrimary from '@/components/hero-section-primary'
 import SectionListingsCarousel from '@/components/section-listings-carousel'
-import { fetchFeaturedServiceProviders, fetchServiceProviders, fetchListingServiceCategoriesWithCount } from '@/api/directus/fetchers'
+import { fetchFeaturedServiceProviders, fetchServiceProviders } from '@/api/directus/fetchers'
 import { getDirectusAssetURL } from '@/api/directus/directus-utils'
 import { TStayListing } from '@/data/listings'
 import { Metadata } from 'next'
@@ -104,10 +104,9 @@ const Page = async ({ params }: { params: Promise<{ slug?: string[] }> }) => {
   const subcategorySlug = slug?.[1]
 
   try {
-    const [allProviders, featuredProviders, listingCategories] = await Promise.all([
+    const [allProviders, featuredProviders] = await Promise.all([
       fetchServiceProviders({ limit: 50 }),
       fetchFeaturedServiceProviders(),
-      fetchListingServiceCategoriesWithCount(),
     ])
 
     // Filter by category/subcategory if slug provided
@@ -161,7 +160,7 @@ const Page = async ({ params }: { params: Promise<{ slug?: string[] }> }) => {
       <div className="relative container space-y-20 pb-28 sm:space-y-24">
         <HeroSectionPrimary
           title={categoryTitle}
-          listingCategories={listingCategories}
+          listingCategories={[]}
           compact
         />
 

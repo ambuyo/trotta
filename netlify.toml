@@ -6,12 +6,7 @@
 
 [build.environment]
   NODE_VERSION = "18"
-
-# Exclude public URLs from secret scanning
-[build.environment.SECRETS_SCAN_OMIT_KEYS]
-  "NEXT_PUBLIC_ASSETS_URL" = true
-  "NEXT_PUBLIC_SITE_URL" = true
-  "WORDPRESS_BLOG_URL" = true
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_ASSETS_URL,NEXT_PUBLIC_SITE_URL,WORDPRESS_BLOG_URL"
 
 [[redirects]]
   from = "/*"

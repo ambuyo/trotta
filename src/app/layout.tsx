@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@/components/theme-provider'
 import { DirectionProvider } from '@/components/ui/direction'
+import GoogleAnalytics from '@/components/google-analytics'
 import { cn } from '@/lib/utils'
 import '@/styles/tailwind.css'
 import clsx from 'clsx'
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={cn(clsx(googleSansFlex.className, playfair_display.variable, stardos_stencil.variable), 'font-sans')}
     >
       <body className="bg-background text-foreground">
+        <GoogleAnalytics />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <DirectionProvider direction={process.env.NEXT_PUBLIC_THEME_DIR} dir={process.env.NEXT_PUBLIC_THEME_DIR}>
             <div>

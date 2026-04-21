@@ -89,6 +89,8 @@ export async function fetchServiceProviderBySlug(
           'description',
           'about',
           'location',
+          'latitude',
+          'longitude',
           'price_range',
           'rating',
           'verified',
@@ -204,7 +206,7 @@ export async function fetchTotalServiceProviderCount({
         fields: ['id'],
         filter: filters,
         limit: 1,
-        meta: ['filter_count'],
+        meta: 'filter_count',
       }),
     )
 
@@ -380,7 +382,7 @@ export async function fetchTotalPostCount(): Promise<number> {
         fields: ['id'],
         filter: { status: { _eq: 'published' } },
         limit: 1,
-        meta: ['filter_count'],
+        meta: 'filter_count',
       }),
     )
 
@@ -410,7 +412,7 @@ export async function fetchTotalPostCountByCategory(
         fields: ['id'],
         filter,
         limit: 1,
-        meta: ['filter_count'],
+        meta: 'filter_count',
       }),
     )
 
@@ -649,30 +651,195 @@ export async function fetchKenyaCities(limit: number = 20): Promise<any[]> {
 
 // Events Fetchers
 
+const LISTING_CATEGORY_MAPPING: Record<string, { name: string; key: string; slug: string; mainId: number; subcategories: Array<{ id: number; name: string }> }> = {
+  'healthcare-medical': {
+    name: 'Healthcare & Medical',
+    key: 'healthcare-medical',
+    slug: 'healthcare',
+    mainId: 1,
+    subcategories: [
+      { id: 11, name: 'General Practitioners' },
+      { id: 12, name: 'Dentists & Dental Care' },
+      { id: 13, name: 'Hospitals & Emergency Care' },
+      { id: 14, name: 'Pharmacies' },
+      { id: 15, name: 'Mental Health & Therapy' },
+    ],
+  },
+  'immigration-legal': {
+    name: 'Immigration & Legal',
+    key: 'immigration-legal',
+    slug: 'immigration',
+    mainId: 2,
+    subcategories: [
+      { id: 21, name: 'Immigration Lawyers' },
+      { id: 22, name: 'Visa Consultants' },
+      { id: 23, name: 'Translation & Notary' },
+      { id: 24, name: 'General Legal Counsel' },
+      { id: 25, name: 'Tax Consultants' },
+    ],
+  },
+  'housing-relocation': {
+    name: 'Housing & Relocation',
+    key: 'housing-relocation',
+    slug: 'housing',
+    mainId: 3,
+    subcategories: [
+      { id: 31, name: 'Real Estate Agents' },
+      { id: 32, name: 'Rental Properties' },
+      { id: 33, name: 'Relocation Services' },
+      { id: 34, name: 'Moving & Storage Services' },
+      { id: 35, name: 'Property Management Services' },
+    ],
+  },
+  'education-learning': {
+    name: 'Education & Learning',
+    key: 'education-learning',
+    slug: 'education',
+    mainId: 4,
+    subcategories: [
+      { id: 41, name: 'International Schools' },
+      { id: 42, name: 'Language Schools' },
+      { id: 43, name: 'Tutoring Services' },
+      { id: 44, name: 'Universities & Higher Education' },
+      { id: 45, name: 'Preschools & Daycare' },
+    ],
+  },
+  'finance-insurance': {
+    name: 'Finance & Insurance',
+    key: 'finance-insurance',
+    slug: 'finance',
+    mainId: 5,
+    subcategories: [
+      { id: 51, name: 'Banks' },
+      { id: 52, name: 'Financial Advisors' },
+      { id: 53, name: 'Insurance Companies' },
+      { id: 54, name: 'Money Transfer Services' },
+      { id: 55, name: 'Mortgage Services' },
+    ],
+  },
+  'transportation-mobility': {
+    name: 'Transportation & Mobility',
+    key: 'transportation-mobility',
+    slug: 'transportation',
+    mainId: 6,
+    subcategories: [
+      { id: 61, name: 'Car Rental' },
+      { id: 62, name: 'Driving Schools' },
+      { id: 63, name: 'Vehicle Sales' },
+      { id: 64, name: 'Auto Repair & Maintenance' },
+      { id: 65, name: 'Public Transportation' },
+    ],
+  },
+  'jobs-career': {
+    name: 'Jobs & Career',
+    key: 'jobs-career',
+    slug: 'jobs',
+    mainId: 7,
+    subcategories: [
+      { id: 71, name: 'Recruitment Agencies' },
+      { id: 72, name: 'Career Coaches' },
+      { id: 73, name: 'Networking Groups' },
+      { id: 74, name: 'Co-working Spaces' },
+      { id: 75, name: 'Resume Services' },
+    ],
+  },
+  'home-services': {
+    name: 'Home Services',
+    key: 'home-services',
+    slug: 'home',
+    mainId: 8,
+    subcategories: [
+      { id: 81, name: 'Utilities Setup' },
+      { id: 82, name: 'Cleaning Services' },
+      { id: 83, name: 'Repair Services' },
+      { id: 84, name: 'Pest Control' },
+      { id: 85, name: 'Furniture Assembly' },
+    ],
+  },
+  'food-dining': {
+    name: 'Food & Dining',
+    key: 'food-dining',
+    slug: 'food',
+    mainId: 9,
+    subcategories: [
+      { id: 91, name: 'Restaurants & Cafes' },
+      { id: 92, name: 'Grocery Stores' },
+      { id: 93, name: 'Food Delivery' },
+      { id: 94, name: 'Catering Services' },
+      { id: 95, name: 'Specialty Food Stores' },
+    ],
+  },
+  'community-lifestyle': {
+    name: 'Community & Lifestyle',
+    key: 'community-lifestyle',
+    slug: 'community',
+    mainId: 10,
+    subcategories: [
+      { id: 101, name: 'Expat Communities' },
+      { id: 102, name: 'Cultural Centers' },
+      { id: 103, name: 'Sports & Fitness' },
+      { id: 104, name: 'Social Clubs' },
+      { id: 105, name: 'Event Organizers' },
+    ],
+  },
+}
+
+async function fetchServiceProviderCountBySubcategoryId(
+  categoryId: number,
+): Promise<number> {
+  try {
+    const response = await directusInstance.request(
+      readItems('service_providers', {
+        fields: ['id'],
+        filter: {
+          status: { _eq: 'published' },
+          categories: {
+            service_categories_id: { _eq: categoryId },
+          },
+        },
+        limit: 1,
+        meta: 'filter_count',
+      }),
+    )
+
+    return (response as any)?.meta?.filter_count || 0
+  } catch (error) {
+    console.error(`Error fetching count for category ${categoryId}:`, error)
+    return 0
+  }
+}
+
 export async function fetchListingServiceCategoriesWithCount(): Promise<any[]> {
   try {
-    const categories = [
-      { name: 'Community & Lifestyle', key: 'community-lifestyle', slug: 'community' },
-      { name: 'Education & Learning', key: 'education-learning', slug: 'education' },
-      { name: 'Finance & Insurance', key: 'finance-insurance', slug: 'finance' },
-      { name: 'Food & Dining', key: 'food-dining', slug: 'food' },
-      { name: 'Healthcare & Medical', key: 'healthcare-medical', slug: 'healthcare' },
-      { name: 'Home Services', key: 'home-services', slug: 'home' },
-      { name: 'Housing & Relocation', key: 'housing-relocation', slug: 'housing' },
-      { name: 'Immigration & Legal', key: 'immigration-legal', slug: 'immigration' },
-      { name: 'Jobs & Career', key: 'jobs-career', slug: 'jobs' },
-      { name: 'Transport', key: 'transport', slug: 'transport' },
-    ]
+    const categoriesWithCounts = await Promise.all(
+      Object.values(LISTING_CATEGORY_MAPPING).map(async (cat) => {
+        const subCategoriesWithCounts = await Promise.all(
+          cat.subcategories.map(async (subCat) => {
+            const count = await fetchServiceProviderCountBySubcategoryId(subCat.id)
+            return {
+              id: `listings-subcat://${cat.slug}/${subCat.id}`,
+              name: subCat.name,
+              handle: subCat.id.toString(),
+              count,
+              description: `Browse ${subCat.name} services`,
+            }
+          })
+        )
 
-    const categoriesWithCounts = categories.map((cat) => ({
-      id: `listings-cat://${cat.key}`,
-      name: cat.name,
-      handle: cat.key,
-      href: `/all-listings?category=${cat.key}`,
-      count: 0,
-      thumbnail: 'https://api.trotta.co/assets/default-category-image.png',
-      description: `Browse ${cat.name} services`,
-    }))
+        const totalCount = subCategoriesWithCounts.reduce((sum, sub) => sum + sub.count, 0)
+
+        return {
+          id: `listings-cat://${cat.key}`,
+          name: cat.name,
+          handle: cat.key,
+          href: `/all-listings?category=${cat.key}`,
+          count: totalCount,
+          thumbnail: 'https://api.trotta.co/assets/default-category-image.png',
+          description: `Browse ${cat.name} services`,
+          children: subCategoriesWithCounts,
+        }
+      })
+    )
 
     return categoriesWithCounts
   } catch (error) {

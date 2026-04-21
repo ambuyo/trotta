@@ -15,6 +15,7 @@ interface Props {
   heading?: string
   searchFormInitTab?: ListingType
   heroImg?: string | StaticImageData
+  showSearch?: boolean
 }
 
 const HeroSection4 = ({
@@ -24,13 +25,14 @@ const HeroSection4 = ({
   subHeadingIcon = House03Icon,
   searchFormInitTab = 'Stays',
   heroImg = stayHeroImg,
+  showSearch = true,
 }: Props) => {
   return (
     <div
       className={clsx(
         'section-hero-4',
         className,
-        searchFormInitTab === 'Stays' || searchFormInitTab === 'Experiences' ? 'sm:pb-12' : 'sm:pb-22'
+        showSearch && (searchFormInitTab === 'Stays' || searchFormInitTab === 'Experiences' ? 'sm:pb-12' : 'sm:pb-22')
       )}
     >
       <div className={clsx('relative z-10 flex w-full items-center justify-center sm:min-h-96')}>
@@ -50,11 +52,13 @@ const HeroSection4 = ({
             />
           </div>
         </div>
-        <HeroSearchForm2
-          showTabs={false}
-          initTab={searchFormInitTab}
-          className="absolute bottom-0 left-1/2 max-w-6xl -translate-x-1/2 translate-y-1/2"
-        />
+        {showSearch && (
+          <HeroSearchForm2
+            showTabs={false}
+            initTab={searchFormInitTab}
+            className="absolute bottom-0 left-1/2 max-w-6xl -translate-x-1/2 translate-y-1/2"
+          />
+        )}
       </div>
     </div>
   )

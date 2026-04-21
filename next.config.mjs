@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
+    unoptimized: true,
     minimumCacheTTL: 2678400 * 6, // 3 months
     remotePatterns: [
       {

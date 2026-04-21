@@ -32,7 +32,7 @@ export default function SectionDreamDestination({
 
         <div className="flex-1/3">
           <Text>Get 15% discount on your first booking!</Text>
-          <Button outline href={'/stay-search-with-map'} className="mt-4">
+          <Button outline href={'/search-listings'} className="mt-4">
             Explore destinations
             <ArrowRightIcon className="size-4 rtl:rotate-180" />
           </Button>

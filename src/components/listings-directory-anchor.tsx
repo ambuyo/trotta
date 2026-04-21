@@ -15,34 +15,47 @@ interface ListingsDirectoryAnchorProps {
   card?: 'box1' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'
 }
 
+const calculateTotalCount = (category: TCategory & { children?: TCategory[] }): number => {
+  let total = category.count || 0
+  if (category.children && Array.isArray(category.children)) {
+    total += category.children.reduce((sum, child) => sum + (child.count || 0), 0)
+  }
+  return total
+}
+
 const ListingsDirectoryAnchor: React.FC<ListingsDirectoryAnchorProps> = ({
   categories,
   className = '',
   card = 'box1',
 }) => {
-  const renderCard = (category: TCategory) => {
+  const renderCard = (category: TCategory & { children?: TCategory[] }) => {
+    const categoryWithCount = {
+      ...category,
+      count: calculateTotalCount(category),
+    }
+
     switch (card) {
       case 'box1':
-        return <CardCategoryBox1 key={category.id} category={category} />
+        return <CardCategoryBox1 key={category.id} category={categoryWithCount} />
       case '1':
-        return <CardCategory1 key={category.id} category={category} />
+        return <CardCategory1 key={category.id} category={categoryWithCount} />
       case '2':
-        return <CardCategory3 key={category.id} category={category} />
+        return <CardCategory3 key={category.id} category={categoryWithCount} />
       case '3':
-        return <CardCategory3 key={category.id} category={category} />
+        return <CardCategory3 key={category.id} category={categoryWithCount} />
       case '4':
-        return <CardCategory4 key={category.id} category={category} />
+        return <CardCategory4 key={category.id} category={categoryWithCount} />
       case '5':
-        return <CardCategory5 key={category.id} category={category} />
+        return <CardCategory5 key={category.id} category={categoryWithCount} />
       case '6':
-        return <CardCategory6 key={category.id} category={category} />
+        return <CardCategory6 key={category.id} category={categoryWithCount} />
       case '7':
-        return <CardCategory7 key={category.id} category={category} />
+        return <CardCategory7 key={category.id} category={categoryWithCount} />
       case '8':
-        return <CardCategory8 key={category.id} category={category} />
+        return <CardCategory8 key={category.id} category={categoryWithCount} />
 
       default:
-        return <CardCategoryBox1 key={category.id} category={category} />
+        return <CardCategoryBox1 key={category.id} category={categoryWithCount} />
     }
   }
 

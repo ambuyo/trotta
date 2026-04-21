@@ -78,7 +78,6 @@ const PageAbout = () => {
       <SectionInterestingInfor />
       <InspirationFutureGetawaysSection className="text-center" />
 
-      <SectionFounder />
       <FeatureSection2 variant="up" />
 
       <Divider />

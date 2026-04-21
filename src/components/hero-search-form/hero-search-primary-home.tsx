@@ -4,40 +4,70 @@ import { HugeiconsIcon } from '@hugeicons/react'
 import {
   Building01Icon,
   Calendar01Icon,
-  HotAirBalloonFreeIcons,
-  MapPinIcon,
 } from '@hugeicons/core-free-icons'
 import clsx from 'clsx'
 import { Fragment, useState } from 'react'
 import { Link } from '@/components/link'
-import { CitiesSearchForm } from './cities-search-form'
+import { ListingsSearchForm } from '@/components/listings-search-form'
 import { EventsSearchForm } from './events-search-form'
-import { ExperiencesSearchForm } from './experiences-search-form'
-import { StaySearchForm } from './stay-search-form'
 
-type TabType = 'Listings' | 'Experiences' | 'Cities' | 'Events'
+type TabType = 'Listings' | 'Events'
 
-const tabs: {
-  name: TabType
-  icon: any
-  href: string
-  formComponent: React.ComponentType<{ formStyle: 'default' | 'small' }>
-}[] = [
-  { name: 'Listings', icon: Building01Icon, href: '/stay', formComponent: StaySearchForm },
-  { name: 'Experiences', icon: HotAirBalloonFreeIcons, href: '/experience', formComponent: ExperiencesSearchForm },
-  { name: 'Cities', icon: MapPinIcon, href: '/cities', formComponent: CitiesSearchForm },
-  { name: 'Events', icon: Calendar01Icon, href: '/events', formComponent: EventsSearchForm },
-]
+interface ListingsSearchFormWrapperProps {
+  formStyle: 'default' | 'small'
+  categories: any[]
+  subcategories: any[]
+}
+
+const ListingsSearchFormWrapper = ({ formStyle, categories, subcategories }: ListingsSearchFormWrapperProps) => (
+  <ListingsSearchForm categories={categories} subcategories={subcategories} />
+)
 
 const HeroSearchPrimaryHome = ({
   className,
   initTab = 'Listings',
   showTabs = true,
+  listingCategories = [],
 }: {
   className?: string
   initTab?: TabType
   showTabs?: boolean
+  listingCategories?: any[]
 }) => {
+  const listingMainCategories = listingCategories.map((cat, index) => ({
+    id: index + 1,
+    name: cat.name,
+    slug: cat.handle,
+  }))
+
+  const allListingSubcategories = listingCategories.flatMap((cat, catIndex) =>
+    (cat.children || []).map((child: any, childIndex: number) => ({
+      id: (catIndex + 1) * 10 + (childIndex + 1),
+      name: child.name,
+      slug: child.handle,
+    }))
+  )
+
+  const tabs: {
+    name: TabType
+    icon: any
+    href: string
+    formComponent: React.ComponentType<any>
+  }[] = [
+    {
+      name: 'Listings',
+      icon: Building01Icon,
+      href: '/stay',
+      formComponent: ({ formStyle }: { formStyle: 'default' | 'small' }) => (
+        <ListingsSearchFormWrapper
+          formStyle={formStyle}
+          categories={listingMainCategories}
+          subcategories={allListingSubcategories}
+        />
+      ),
+    },
+    { name: 'Events', icon: Calendar01Icon, href: '/events', formComponent: EventsSearchForm },
+  ]
   const [activeTab, setActiveTab] = useState<TabType>(initTab)
 
   return (

@@ -16,20 +16,20 @@ interface SectionInterestingInforProps {
 
 const STATS = [
   {
-    value: '9M+',
-    label: 'Active listings worldwide',
+    value: '450+ Listings',
+    label: 'Not scattered reviews from 10 years ago. Real businesses actively serving expats right now.',
   },
   {
-    value: '150K+',
-    label: 'Cities and towns with active listings',
+    value: 'Community Access',
+    label: 'Connect with 500+ expats in Kenya sharing real-time tips, advice, and support in our active forums and WhatsApp groups.',
   },
   {
-    value: '220+',
-    label: 'Countries and regions with listings',
+    value: 'Content Depth',
+    label: 'From M-Pesa to matatus, our guides cover the practical details that make a difference in your daily life in Kenya.',
   },
   {
-    value: '2B+',
-    label: 'Ceepii guest arrivals all-time',
+    value: 'Time Savings',
+    label: 'No more endless Googling. Get the exact information you need to settle in Kenya quickly and confidently.',
   },
 ]
 
@@ -57,13 +57,12 @@ export default function SectionInterestingInfor({
   className,
   heading = (
     <>
-      Some interesting information <span data-slot="italic">about the Ceepii!</span>
+      <span data-slot="italic">1000+ </span> expats already trust Trotta 
     </>
   ),
   description = (
     <>
-      We believe that everyone deserves to experience the joy of discovery, and we are committed to making it easier
-      than ever to plan your next adventure.
+Active users taking action in Kenya, not just browsing.
     </>
   ),
 }: SectionInterestingInforProps) {
@@ -127,6 +126,7 @@ export default function SectionInterestingInfor({
               {stat.value}
             </Heading>
             <Text className="mt-auto text-neutral-600 dark:text-neutral-300">{stat.label}</Text>
+
           </div>
         ))}
       </div>

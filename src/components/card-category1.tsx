@@ -28,7 +28,7 @@ const CardCategory1: FC<CardCategory1Props> = ({ className = '', size = 'normal'
         <span
           className={`${size === 'large' ? 'text-sm' : 'text-xs'} mt-0.5 block text-neutral-500 dark:text-neutral-400`}
         >
-          {count}+ properties
+          {count || 0}+ properties
         </span>
       </div>
     </Link>

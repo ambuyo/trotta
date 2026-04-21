@@ -183,8 +183,8 @@ const Header2: FC<Props> = ({ className, hasBorderBottom = true, initSearchFormT
             {/* NAVIGATIONS */}
             <div className="relative z-10 flex flex-1/2 items-center justify-end gap-x-2.5 sm:gap-x-4">
               <div className="hidden xl:block">
-                <Button className="sm:text-sm" plain href={'/add-listing/1'}>
-                  List your property
+                <Button className="sm:text-sm" plain href={'/business/add-a-listing'}>
+                  List your business
                 </Button>
               </div>
 

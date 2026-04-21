@@ -8,16 +8,16 @@ import { HugeiconsIcon } from '@hugeicons/react'
 interface Props {
   title: string
   listingCategory: string
-  reviewStart: number
-  reviewCount: number
+  reviewStart?: number
+  reviewCount?: number
   address: string
-  host: {
+  host?: {
     displayName: string
     avatarUrl: string
   }
 }
 
-const SectionHeader = ({ address, host, listingCategory, reviewCount, reviewStart, title }: Props) => {
+const SectionHeader = ({ address, host, listingCategory, reviewCount = 0, reviewStart = 0, title }: Props) => {
   return (
     <div className="flex flex-col items-start gap-y-6">
       <div className="flex w-full flex-col-reverse items-baseline justify-between gap-4 sm:flex-row">
@@ -31,17 +31,23 @@ const SectionHeader = ({ address, host, listingCategory, reviewCount, reviewStar
         </div>
         <span>·</span>
         <Badge>{listingCategory}</Badge>
-        <span>·</span>
-        <StartRating size="lg" point={reviewStart} reviewCount={reviewCount} />
+        {reviewStart ? (
+          <>
+            <span>·</span>
+            <StartRating size="lg" point={reviewStart} reviewCount={reviewCount} />
+          </>
+        ) : null}
       </div>
 
-      <div className="flex items-center gap-5">
-        <HostAvatar verifiedSize="size-4 *:data-[slot=icon]:size-3!" avatarUrl={host.avatarUrl} avatarSize="size-11" />
-        <div className="flex flex-col">
-          <span className="font-medium">Hosted by {host.displayName}</span>
-          <span className="mt-0.5 text-sm font-[360] text-muted-foreground">Superhost · 2 years hosting</span>
+      {host && (
+        <div className="flex items-center gap-5">
+          <HostAvatar verifiedSize="size-4 *:data-[slot=icon]:size-3!" avatarUrl={host.avatarUrl} avatarSize="size-11" />
+          <div className="flex flex-col">
+            <span className="font-medium">Hosted by {host.displayName}</span>
+            <span className="mt-0.5 text-sm font-[360] text-muted-foreground">Superhost · 2 years hosting</span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

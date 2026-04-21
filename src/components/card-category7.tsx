@@ -3,6 +3,7 @@ import ButtonSecondary from '@/components/button-secondary'
 import { Link } from '@/components/link'
 import Image from 'next/image'
 import { FC } from 'react'
+import convertNumbThousand from '@/utils/convert-numb-thousand'
 
 interface Props {
   className?: string
@@ -35,6 +36,9 @@ const CardCategory7: FC<Props> = ({ className = '', category: { name, descriptio
                 <Link href={href} className="absolute inset-0"></Link>
                 {name}
               </h2>
+              <p className={`mt-2 block text-sm text-slate-600`}>
+                {convertNumbThousand(count || 0)}+ available
+              </p>
             </div>
             <ButtonSecondary className="mt-auto" href={href}>
               Show more

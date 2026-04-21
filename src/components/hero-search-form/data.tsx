@@ -4,7 +4,7 @@ import { IconSvgElement } from '@hugeicons/react'
 import { ExperiencesSearchForm } from './experiences-search-form'
 import { FlightSearchForm } from './flight-search-form'
 import { RentalCarSearchForm } from './rental-car-search-form'
-import { StaySearchForm } from './stay-search-form'
+import { StaySearchForm } from './search-listings-form'
 
 export const heroSearchFormTabsData: {
   name: ListingType

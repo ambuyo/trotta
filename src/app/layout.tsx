@@ -10,8 +10,7 @@ import 'rc-slider/assets/index.css'
 const googleSansFlex = Google_Sans_Flex({
   subsets: ['latin'],
   display: 'swap',
-  weight: 'variable',
-  variable: '--font-sans',
+  fallback: ['system-ui', 'arial'],
 })
 
 const playfair_display = Playfair_Display({
@@ -31,11 +30,14 @@ const stardos_stencil = Stardos_Stencil({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s - Ceepii | Booking online React Next.js template',
-    default: 'Ceepii - Booking online React Next.js template',
+    template: '%s - Trotta',
+    default: 'Trotta - Settle. Explore. Thrive in Kenya.',
   },
-  description: 'Booking online & rental online Next.js Template',
-  keywords: ['Ceepii', 'Booking online', 'Rental online', 'React Next.js template'],
+  description: 'Settle. Explore. Thrive in Kenya. - Your trusted guide for expat services and community in Kenya',
+  keywords: ['Trotta', 'Expat services', 'Kenya', 'Relocation', 'Verified providers', 'Community'],
+  icons: {
+    icon: '/brand/logos/trotta website favicon.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -44,7 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang={process.env.NEXT_PUBLIC_THEME_DIR === 'rtl' ? 'ar' : 'en'}
       dir={process.env.NEXT_PUBLIC_THEME_DIR}
       suppressHydrationWarning
-      className={cn(clsx(googleSansFlex.variable, playfair_display.variable, stardos_stencil.variable), 'font-sans')}
+      className={cn(clsx(googleSansFlex.className, playfair_display.variable, stardos_stencil.variable), 'font-sans')}
     >
       <body className="bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>

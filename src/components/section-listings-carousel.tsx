@@ -9,6 +9,7 @@ import CarCard from './car-card'
 import ExperiencesCard from './experiences-card'
 import { Heading } from './heading'
 import NextPrevButtons from './next-prev-btns'
+import ServiceProviderCard from './service-provider-card'
 import StayCard2 from './stay-card2'
 import { Text } from './text'
 
@@ -18,8 +19,8 @@ interface Props {
   heading?: string
   headingFontClassName?: string
   subHeading?: string
-  listings: TStayListing[] | TExperienceListing[] | TCarListing[]
-  cardType?: 'stay' | 'experience' | 'car'
+  listings: TStayListing[] | TExperienceListing[] | TCarListing[] | any[]
+  cardType?: 'stay' | 'experience' | 'car' | 'service-provider'
 }
 
 const SectionListingsCarousel = ({
@@ -65,7 +66,7 @@ const SectionListingsCarousel = ({
 
       <div className="mt-8 embla sm:mt-10" ref={emblaRef}>
         <div className="-ms-4 embla__container sm:-ms-6">
-          {listings.map((listing) => (
+          {listings.map((listing, index) => (
             <div
               key={listing.id}
               className="embla__slide basis-[86%] ps-4 sm:ps-6 md:basis-[45%] lg:basis-1/3 xl:basis-[29%] 2xl:basis-1/4"
@@ -73,6 +74,7 @@ const SectionListingsCarousel = ({
               {cardType === 'stay' && <StayCard2 data={listing as TStayListing} />}
               {cardType === 'experience' && <ExperiencesCard data={listing as TExperienceListing} />}
               {cardType === 'car' && <CarCard data={listing as TCarListing} />}
+              {cardType === 'service-provider' && <ServiceProviderCard data={listing} isFirst={index === 0} />}
             </div>
           ))}
         </div>

@@ -47,7 +47,7 @@ const users = [
   },
 ]
 
-const FeaturedListingCard = ({ stay }: { stay: TStayListing }) => {
+const FeaturedListingCard = ({ stay, isFirst = false }: { stay: TStayListing; isFirst?: boolean }) => {
   const { amenities, title, handle: listingHandle, like, price, reviewStart, reviewCount, nameLocalized } = stay
 
   return (
@@ -55,7 +55,8 @@ const FeaturedListingCard = ({ stay }: { stay: TStayListing }) => {
       <Image
         src={stay.featuredImage}
         alt={stay.title}
-        priority
+        priority={isFirst}
+        loading={isFirst ? 'eager' : 'lazy'}
         fill
         className="rounded-2xl object-cover transition-[filter] duration-300 group-hover/listing:brightness-85"
         sizes="(max-width: 1024px) 100vw, 60vw"
@@ -138,8 +139,8 @@ const SectionGridFeaturedListings: FC<SectionGridFeaturedListingsProps> = ({
 
       <div className="flex-1 embla sm:overflow-visible" ref={emblaRef}>
         <div className="embla__container w-full">
-          {stayListings.map((stay) => (
-            <FeaturedListingCard key={stay.id} stay={stay} />
+          {stayListings.map((stay, index) => (
+            <FeaturedListingCard key={stay.id} stay={stay} isFirst={index === 0} />
           ))}
         </div>
 

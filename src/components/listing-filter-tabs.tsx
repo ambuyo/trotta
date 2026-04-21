@@ -1,7 +1,6 @@
 'use client'
 
 import { Button } from '@/components/button'
-import ButtonClose from '@/components/button-close'
 import ButtonPrimary from '@/components/button-primary'
 import ButtonThird from '@/components/button-third'
 import { Checkbox, CheckboxField, CheckboxGroup } from '@/components/checkbox'
@@ -9,10 +8,6 @@ import { Description, Fieldset, Label } from '@/components/fieldset'
 import NcInputNumber from '@/components/nc-input-number'
 import {
   CloseButton,
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  DialogTitle,
   Popover,
   PopoverButton,
   PopoverGroup,
@@ -20,8 +15,6 @@ import {
   PopoverPanelProps,
 } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
-import { FilterVerticalIcon } from '@hugeicons/core-free-icons'
-import { HugeiconsIcon } from '@hugeicons/react'
 import clsx from 'clsx'
 import Form from 'next/form'
 import { useState } from 'react'
@@ -287,8 +280,6 @@ const ListingFilterTabs = ({
   optionPanelAnchor?: PopoverPanelProps['anchor']
   inPageStaySearchWithMap?: boolean
 }) => {
-  const [showAllFilter, setShowAllFilter] = useState(false)
-
   const handleFormSubmit = async (formData: FormData) => {
     const formDataObject = Object.fromEntries(formData.entries())
     console.log('Form submitted with data:', formDataObject)
@@ -302,7 +293,7 @@ const ListingFilterTabs = ({
     <>
       <PopoverGroup className={clsx('flex flex-wrap gap-2 2xl:gap-x-3', className)} as={Form} action={handleFormSubmit}>
         {filterOptions.map((filterOption, index) => {
-          // only show 3 filters in the tab. Other filters will be shown in the All-filters-popover
+          // only show 3 filters in the tab
           if (index > 2 || !filterOption) {
             return null
           }
@@ -366,77 +357,7 @@ const ListingFilterTabs = ({
           )
         })}
 
-        {/* Open dialog All filter button  */}
-        <Button
-          outline
-          onClick={() => setShowAllFilter(true)}
-          className="h-10 w-full max-w-44 shrink-0 border-black! ring-1 ring-black ring-inset sm:w-auto sm:text-sm/normal dark:border-neutral-200! dark:ring-neutral-200"
-        >
-          <HugeiconsIcon icon={FilterVerticalIcon} size={16} color="currentColor" strokeWidth={1.5} />
-          <span>All filters</span>
-          <span className="absolute top-0 -right-0.5 flex size-4 items-center justify-center rounded-full bg-black text-[0.65rem] font-medium text-white ring-2 ring-white dark:bg-neutral-200 dark:text-neutral-900 dark:ring-neutral-900">
-            4
-          </span>
-        </Button>
       </PopoverGroup>
-
-      {/* All Filter Dialog */}
-      <Dialog
-        open={showAllFilter}
-        onClose={() => setShowAllFilter(false)}
-        className="relative z-50"
-        as={Form}
-        action={handleFormSubmit}
-      >
-        <DialogBackdrop transition className="fixed inset-0 bg-black/50 duration-200 ease-out data-closed:opacity-0" />
-        <div className="fixed inset-0 flex max-h-screen w-screen items-center justify-center pt-3">
-          <DialogPanel
-            className="flex max-h-full w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl bg-white text-left align-middle shadow-xl duration-200 ease-out dark:border dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 data-closed:translate-y-16 data-closed:opacity-0"
-            transition
-          >
-            <div className="relative shrink-0 border-b border-neutral-200 p-4 text-center sm:px-8 dark:border-neutral-800">
-              <DialogTitle as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                Filters
-              </DialogTitle>
-              <div className="absolute end-2 top-2">
-                <ButtonClose plain onClick={() => setShowAllFilter(false)} />
-              </div>
-            </div>
-
-            <div className="hidden-scrollbar grow overflow-y-auto text-start">
-              <div className="divide-y divide-neutral-200 px-4 sm:px-8 dark:divide-neutral-800">
-                {filterOptions.map((filterOption, index) =>
-                  filterOption ? (
-                    <div key={index} className="py-7">
-                      <h3 className="text-xl font-medium">{filterOption.label}</h3>
-                      <div className="relative mt-6">
-                        {filterOption.tabUIType === 'checkbox' && (
-                          <CheckboxPanel filterOption={filterOption as CheckboxFilter} />
-                        )}
-                        {filterOption.tabUIType === 'price-range' && (
-                          <PriceRagePanel key={index} filterOption={filterOption as PriceRangeFilter} />
-                        )}
-                        {filterOption.tabUIType === 'select-number' && (
-                          <NumberSelectPanel key={index} filterOption={filterOption as SelectNumberFilter} />
-                        )}
-                      </div>
-                    </div>
-                  ) : null
-                )}
-              </div>
-            </div>
-
-            <div className="flex shrink-0 items-center justify-between bg-neutral-50 p-4 sm:px-8 dark:border-t dark:border-neutral-800 dark:bg-neutral-900">
-              <ButtonThird className="-mx-3" onClick={() => setShowAllFilter(false)} type="button">
-                Clear all
-              </ButtonThird>
-              <ButtonPrimary type="submit" onClick={() => setShowAllFilter(false)}>
-                Show results
-              </ButtonPrimary>
-            </div>
-          </DialogPanel>
-        </div>
-      </Dialog>
     </>
   )
 }

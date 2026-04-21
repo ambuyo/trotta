@@ -61,31 +61,24 @@ const facts = [
 const SectionWhyUs: FC<SectionWhyUsProps> = ({
   heading = (
     <>
-      You&apos;re not doing <span data-slot="italic">this alone</span>
+     Why expats actually thrive in <span data-slot="italic">Kenya</span>
     </>
   ),
-  description = "Join 500+ expats asking questions, sharing tips, and making Kenya home together. WhatsApp groups for housing searches, job opportunities, and social meetups. Forum discussions covering everything from matatu etiquette to tax filing. Monthly meetups in Nairobi, Mombasa, and Kisumu.",
+  description = "Settling into a new country shouldn't feel like a treasure hunt. Most expat platforms give you generic advice. We give you exactly what you need to know about Kenya—M-Pesa, matatu etiquette, which neighborhoods work for your budget, visa timelines that don't change every week—along with verified service providers who already know how to work with expats. No guessing. No surprises.",
 }) => {
   return (
     <div className="relative flex flex-col gap-8 overflow-hidden sm:gap-20 lg:flex-row">
       <div className="flex flex-1 flex-col items-start gap-4 self-center sm:gap-7 lg:pe-14">
-        <Logo />
         <Heading fontSize="text-4xl lg:text-5xl xl:text-6xl" className="max-w-lg">
           {heading}
         </Heading>
         <Text className="max-w-md text-neutral-600 dark:text-neutral-400">{description}</Text>
         <Button className="mt-5" href="/signup">
           <HugeiconsIcon icon={UserAdd02Icon} size={20} color="currentColor" strokeWidth={1.5} />
-Host Next Meetup        </Button>
+Join the Community       </Button>
         <div className="flex items-center gap-x-2">
-          <div className="flex items-center justify-center -space-x-2">
-            {users.map((user) => (
-              <Avatar key={user.id} src={user.avatarUrl} className="size-7 ring-2 ring-white dark:ring-zinc-900" />
-            ))}
-          </div>
-          <Text className="text-sm text-gray-500">
-            <span className="font-[450] text-gray-900 dark:text-gray-100">1M+ hosts</span> already signed up
-          </Text>
+
+       
         </div>
       </div>
 

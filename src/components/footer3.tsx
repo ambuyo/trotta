@@ -4,8 +4,8 @@ import Link from 'next/link'
 import type { JSX } from 'react'
 
 const navigation: {
-  solutions: { name: string; href: string }[]
-  support: { name: string; href: string }[]
+  categories1: { name: string; href: string }[]
+  categories2: { name: string; href: string }[]
   company: { name: string; href: string }[]
   legal: { name: string; href: string }[]
   social: {
@@ -14,23 +14,25 @@ const navigation: {
     icon: (props: React.SVGProps<SVGSVGElement>) => JSX.Element
   }[]
 } = {
-  solutions: [
-    { name: 'Marketing', href: '#' },
-    { name: 'Analytics', href: '#' },
-    { name: 'Automation', href: '#' },
-    { name: 'Commerce', href: '#' },
-    { name: 'Insights', href: '#' },
+  categories1: [
+    { name: 'Community & Lifestyle', href: '/all-listings/community-lifestyle' },
+    { name: 'Education & Learning', href: '/all-listings/education-learning' },
+    { name: 'Finance & Insurance', href: '/all-listings/finance-insurance' },
+    { name: 'Food & Dining', href: '/all-listings/food-dining' },
+    { name: 'Healthcare & Medical', href: '/all-listings/healthcare-medical' },
   ],
-  support: [
-    { name: 'Submit ticket', href: '#' },
-    { name: 'Documentation', href: '#' },
-    { name: 'Guides', href: '#' },
+  categories2: [
+    { name: 'Home Services', href: '/all-listings/home-services' },
+    { name: 'Housing & Relocation', href: '/all-listings/housing-relocation' },
+    { name: 'Immigration & Legal', href: '/all-listings/immigration-legal' },
+    { name: 'Jobs & Career', href: '/all-listings/jobs-career' },
+    { name: 'Transport', href: '/all-listings/transportation-mobility' },
   ],
   company: [
-    { name: 'About', href: '#' },
-    { name: 'Blog', href: '#' },
-    { name: 'Jobs', href: '#' },
-    { name: 'Press', href: '#' },
+    { name: 'About', href: '/about' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Guide', href: '/guides' },
+    { name: 'List Business', href: '/business/add-a-listing' },
   ],
   legal: [
     { name: 'Terms of service', href: '#' },
@@ -113,15 +115,15 @@ export default function Footer3() {
               alt="Trotta"
               width={80}
               height={29}
-              className="h-auto w-20"
+              className="w-auto h-auto"
             />
           </Link>
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm/6 font-medium text-gray-900 dark:text-neutral-300">Solutions</h3>
+                <h3 className="text-sm/6 font-medium text-gray-900 dark:text-neutral-300">Categories</h3>
                 <ul role="list" className="mt-6 space-y-4">
-                  {navigation.solutions.map((item) => (
+                  {navigation.categories1.map((item) => (
                     <li key={item.name}>
                       <a href={item.href} className="text-sm/6 text-gray-600 hover:text-gray-900 dark:text-neutral-400">
                         {item.name}
@@ -131,9 +133,9 @@ export default function Footer3() {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-sm/6 font-medium text-gray-900 dark:text-neutral-300">Support</h3>
+                <h3 className="text-sm/6 font-medium text-gray-900 dark:text-neutral-300">Categories</h3>
                 <ul role="list" className="mt-6 space-y-4">
-                  {navigation.support.map((item) => (
+                  {navigation.categories2.map((item) => (
                     <li key={item.name}>
                       <a href={item.href} className="text-sm/6 text-gray-600 hover:text-gray-900 dark:text-neutral-400">
                         {item.name}
@@ -182,7 +184,7 @@ export default function Footer3() {
             ))}
           </div>
           <p className="mt-8 text-sm/6 text-gray-600 md:order-1 md:mt-0 dark:text-neutral-400">
-            &copy; {new Date().getFullYear()} CeePii. All rights reserved.
+            {new Date().getFullYear()} Trotta. A Subsidiary of Madavi Global Inc.
           </p>
         </div>
       </div>

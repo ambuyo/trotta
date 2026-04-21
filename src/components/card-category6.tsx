@@ -25,7 +25,7 @@ const CardCategory6: FC<CardCategory6Props> = ({ className = 'flex-1', category 
         <span className="absolute inset-0 bg-linear-to-t from-black/60"></span>
         <h2 className={`relative text-lg font-semibold`}>{name}</h2>
         <span className={`relative mt-1.5 block text-sm text-neutral-100`}>
-          {convertNumbThousand(count)}+ available
+          {convertNumbThousand(count || 0)}+ available
         </span>
       </div>
     </Link>

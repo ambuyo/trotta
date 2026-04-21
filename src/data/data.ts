@@ -415,7 +415,7 @@ export type TListingReivew = Awaited<ReturnType<typeof getListingReviews>>[numbe
 export async function getStayListingFilterOptions() {
   return [
     {
-      label: 'Property type',
+      label: 'Listing Type',
       name: 'propertyType',
       tabUIType: 'checkbox',
       options: [
@@ -444,21 +444,24 @@ export async function getStayListingFilterOptions() {
       ],
     },
     {
+      label: 'Subcategory',
+      name: 'subcategory',
+      tabUIType: 'checkbox',
+      options: [
+        {
+          name: 'All subcategories',
+          value: 'all_subcategories',
+          description: 'Browse all available subcategories',
+          defaultChecked: true,
+        },
+      ],
+    },
+    {
       label: 'Price range',
       name: 'priceRange',
       tabUIType: 'price-range',
       min: 0,
       max: 1000,
-    },
-    {
-      label: 'Rooms & beds',
-      name: 'roomsAndBeds',
-      tabUIType: 'select-number',
-      options: [
-        { name: 'Beds', max: 10 },
-        { name: 'Bedrooms', max: 10 },
-        { name: 'Bathrooms', max: 10 },
-      ],
     },
     {
       label: 'Amenities',

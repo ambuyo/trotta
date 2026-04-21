@@ -22,7 +22,7 @@ import { useTimeoutFn } from 'react-use'
 import CarSearchFormMobile from './car-search-form/car-search-form-mobile'
 import ExperienceSearchFormMobile from './experience-search-form/experience-search-form-mobile'
 import FlightSearchFormMobile from './flight-search-form/flight-search-form-mobile'
-import StaySearchFormMobile from './stay-search-form/stay-search-form-mobile'
+import StaySearchFormMobile from './search-listings-form/search-listings-form-mobile'
 
 const formTabs: { name: ListingType; icon: IconSvgElement; formComponent: React.ComponentType<{}> }[] = [
   { name: 'Stays', icon: House04Icon, formComponent: StaySearchFormMobile },

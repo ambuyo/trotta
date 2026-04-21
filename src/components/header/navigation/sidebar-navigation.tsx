@@ -29,7 +29,7 @@ const SidebarNavigation: React.FC<Props> = () => {
 
   // Prefetch the next step to improve performance
   useEffect(() => {
-    router.prefetch('/stay-search-with-map')
+    router.prefetch('/search-listings')
   }, [router])
 
   // Handle form submission

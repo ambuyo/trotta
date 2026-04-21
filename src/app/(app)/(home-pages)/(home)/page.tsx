@@ -3,7 +3,7 @@ import { Button } from '@/components/button'
 import { Divider } from '@/components/divider'
 import GroupPopularListings from '@/components/group-popular-listings'
 import HowTrottaWorks from '@/components/how-trotta-works'
-import ListingsDirectoryAnchor from '@/components/listings-directory-anchor'
+import BusinessesDirectoryGrid from '@/components/businesses-directory-grid'
 
 import { Heading } from '@/components/heading'
 import HeroSectionPrimary from '@/components/hero-section-primary'
@@ -176,7 +176,7 @@ async function Page() {
               <ArrowRightIcon className="size-4! rtl:rotate-180" />
             </Button>
           </div>
-          <ListingsDirectoryAnchor categories={[]} />
+          <BusinessesDirectoryGrid />
         </RevealInView>
       </div>
 

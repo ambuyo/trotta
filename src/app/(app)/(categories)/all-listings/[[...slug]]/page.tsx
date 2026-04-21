@@ -114,6 +114,7 @@ const Page = async ({ params }: { params: Promise<{ slug?: string[] }> }) => {
     let filteredFeaturedProviders = featuredProviders
     let categoryTitle = 'All Verified Services'
     let categoryDesc = `${allProviders.length} trusted service providers for expats in Kenya`
+    let heroSubtitle = 'Find verified services, practical guides, and connect with a community that gets it.'
 
     if (categorySlug) {
       if (subcategorySlug) {
@@ -130,6 +131,7 @@ const Page = async ({ params }: { params: Promise<{ slug?: string[] }> }) => {
 
         categoryTitle = subcategoryMeta.subcategoryName
         categoryDesc = subcategoryMeta.description
+        heroSubtitle = subcategoryMeta.metaDescription
 
         filteredProviders = filterProvidersBySubcategory(allProviders, categorySlug, subcategorySlug)
         filteredFeaturedProviders = filterProvidersBySubcategory(featuredProviders, categorySlug, subcategorySlug)
@@ -147,6 +149,7 @@ const Page = async ({ params }: { params: Promise<{ slug?: string[] }> }) => {
 
         categoryTitle = categoryMeta.title
         categoryDesc = categoryMeta.description
+        heroSubtitle = categoryMeta.metaDescription
 
         filteredProviders = filterProvidersByCategory(allProviders, categorySlug)
         filteredFeaturedProviders = filterProvidersByCategory(featuredProviders, categorySlug)
@@ -160,6 +163,7 @@ const Page = async ({ params }: { params: Promise<{ slug?: string[] }> }) => {
       <div className="relative container space-y-20 pb-28 sm:space-y-24">
         <HeroSectionPrimary
           title={categoryTitle}
+          subtitle={heroSubtitle}
           listingCategories={[]}
           compact
         />

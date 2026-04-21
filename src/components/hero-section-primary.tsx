@@ -32,6 +32,7 @@ const users = [
 interface HeroSectionPrimaryProps {
   className?: string
   title?: ReactNode
+  subtitle?: ReactNode
   heroImg?: string | StaticImageData
   listingCategories?: any[]
   compact?: boolean
@@ -45,6 +46,7 @@ const HeroSectionPrimary = ({
  <span data-slot="italic">Thrive in Kenya.</span>
     </>
   ),
+  subtitle = 'Find verified services, practical guides, and connect with a community that gets it.',
   heroImg = flightHeroImg,
   listingCategories = [],
   compact = false,
@@ -84,7 +86,7 @@ const HeroSectionPrimary = ({
 
             <FadeIn transition={{ delay: 0.2, duration: 1 }}>
               <p className="mt-6 max-w-2xl text-center text-lg text-white/90 md:text-xl">
-                Find verified services, practical guides, and connect with a community that gets it.
+                {subtitle}
               </p>
             </FadeIn>
 

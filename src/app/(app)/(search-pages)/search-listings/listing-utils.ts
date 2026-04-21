@@ -3,6 +3,7 @@ import {
   getCarListings,
   getExperienceListings,
   getFlightListings,
+  TStayListing,
 } from '@/data/listings'
 import {
   getStayListingFilterOptions,
@@ -10,8 +11,43 @@ import {
   getExperienceListingFilterOptions,
   getFlightFilterOptions,
 } from '@/data/data'
+import { fetchServiceProviders } from '@/api/directus/fetchers'
+import { getDirectusAssetURL } from '@/api/directus/directus-utils'
 
 export type ListingType = 'stay' | 'car' | 'experience' | 'flight'
+
+// Transform Directus service providers to TStayListing format
+function transformServiceProviderToListing(provider: any): TStayListing {
+  const priceRange = provider.price_range?.[0]
+  const priceText = priceRange
+    ? `${priceRange.min_price}-${priceRange.max_price} ${priceRange.currency}`
+    : 'Contact for pricing'
+
+  const amenitiesArray = Array.isArray(provider.amenities) ? provider.amenities : []
+  const transformedAmenities = amenitiesArray.slice(0, 6).map((amenity: string) => ({
+    icon: 'CheckIcon',
+    text: amenity,
+  }))
+
+  return {
+    id: String(provider.id),
+    title: provider.name,
+    nameLocalized: provider.categories?.[0]?.service_categories_id?.name || 'Service Provider',
+    handle: provider.slug,
+    price: priceText,
+    featuredImage: getDirectusAssetURL(provider.image),
+    galleryImgs: provider.gallery?.map((g: any) =>
+      getDirectusAssetURL(g.directus_files_id)
+    ) || [getDirectusAssetURL(provider.image)],
+    like: false,
+    reviewStart: provider.rating || 0,
+    reviewCount: 0,
+    amenities: transformedAmenities,
+    address: provider.location || provider.address || '',
+    badge: provider.verified ? 'Verified' : '',
+    map: { lat: -1.2865, lng: 36.8172 },
+  }
+}
 
 export async function getListingsByType(type: ListingType): Promise<any[]> {
   switch (type) {
@@ -25,6 +61,16 @@ export async function getListingsByType(type: ListingType): Promise<any[]> {
       return await getFlightListings()
     default:
       return await getStayListings()
+  }
+}
+
+export async function getServiceProvidersForSearch(): Promise<TStayListing[]> {
+  try {
+    const providers = await fetchServiceProviders({ limit: 50 })
+    return providers.map(transformServiceProviderToListing)
+  } catch (error) {
+    console.error('Error fetching service providers:', error)
+    return []
   }
 }
 
